@@ -1,0 +1,32 @@
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py': [Errno 1] Operation not permitted
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py': [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py", line 5, in <module>
+    import schedule
+ModuleNotFoundError: No module named 'schedule'
+Traceback (most recent call last):
+  File "/Users/juliebelzanne/Documents/Hush_Crasher/steam_api/get_all_games.py", line 9, in <module>
+    response = requests.get(url)
+                            ^^^
+NameError: name 'url' is not defined
+Nombre total de jeux : 206844
+Base de données mise à jour. 206843 nouveaux jeux ajoutés le 2024-07-22.
+Le script a terminé son exécution et va maintenant se fermer.
+Nombre total de jeux : 206844
+Base de données mise à jour. 0 nouveaux jeux ajoutés le 1721659501.
+Le script a terminé son exécution et va maintenant se fermer.
+Nombre total de jeux : 206844
+Base de données mise à jour. 0 nouveaux jeux ajoutés le 1721660221.
+Le script a terminé son exécution et va maintenant se fermer.
