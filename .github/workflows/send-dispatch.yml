@@ -3,7 +3,7 @@ name: Trigger Tweet Workflow
 on:
     push:
         paths:
-            - 'steam_games.db' # Trigger on changes to the steam_games.db file
+            - '**.db' # Trigger on changes to the steam_games.db file
     workflow_dispatch:
         
 jobs:
