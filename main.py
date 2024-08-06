@@ -2,6 +2,7 @@ import json
 import requests
 import sqlite3
 import time
+import csv
 
 # Faire la requête GET
 URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json"
@@ -30,51 +31,39 @@ def fetch_steam_games():
         print(f"Erreur lors de la récupération des données : {response.status_code}")
         return None
 
-def create_database():
-    conn = sqlite3.connect('steam_games.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS games (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        steam_game_id INTEGER UNIQUE NOT NULL,
-        first_seen DATE NOT NULL
-    )
-    ''')
-    conn.commit()
-    return conn
-
-def update_database(conn, games):
-    cursor = conn.cursor()
-    today = int(time.time())
+# Remplacer la fonction update_database par update_csv_file
+def update_csv_file(csv_file, games):
+    with open(csv_file, 'r', newline='') as f:
+        reader = csv.reader(f)
+        next(reader)  # Skip header
+        existing_ids = set(row[1] for row in reader)
     
-    # Récupérer les steam_game_id existants
-    cursor.execute("SELECT steam_game_id FROM games")
-    existing_ids = set(row[0] for row in cursor.fetchall())
+    with open(csv_file, 'r', newline='') as f:
+        reader = csv.reader(f)
+        next(reader)  # Skip header
+        last_id = max(int(row[0]) for row in reader) if reader else 0
     
-    # Identifier les nouveaux steam_game_id
-    new_ids = set(game['appid'] for game in games) - existing_ids
+    new_entries = []
+    current_time = int(time.time())
+    for game in games:
+        if str(game['appid']) not in existing_ids:
+            last_id += 1
+            new_entries.append([last_id, game['appid'], current_time])
     
-    # Préparer les nouvelles entrées
-    new_entries = [(game_id, today) for game_id in new_ids]
+    with open(csv_file, 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(new_entries)
     
-    # Insérer les nouvelles entrées
-    cursor.executemany("INSERT INTO games (steam_game_id, first_seen) VALUES (?, ?)", new_entries)
-    
-    conn.commit()
-    print(f"Base de données mise à jour. {len(new_entries)} nouveaux jeux ajoutés le {today}.")
+    print(f"CSV file updated. {len(new_entries)} new games added.")
 
 
-def main():
+def main(csv_file):
     # Récupérer la liste des jeux depuis l'API Steam
     games = fetch_steam_games()
     if games:
-        # Créer ou se connecter à la base de données
-        conn = create_database()
         # Mettre à jour la base de données avec les nouveaux jeux
-        update_database(conn, games)
-        conn.close()
+        update_csv_file(csv_file, games)
 
 if __name__ == "__main__":
-    main()
+    main("steam_games.csv")
     print("Le script a terminé son exécution et va maintenant se fermer.")
-
